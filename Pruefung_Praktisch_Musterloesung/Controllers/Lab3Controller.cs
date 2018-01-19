@@ -15,6 +15,14 @@ namespace Pruefung_Praktisch_Musterloesung.Controllers
         * 
         * ANTWORTEN BITTE HIER
         * 
+        * Aufgabe 1:
+        *   SQL-Injection: Die Parameter werden nicht escaped beim Einfügen in die DB.
+        *   Somit könnte beispielsweise ' Drop Database; als Paramater geschrieben werden
+        *   
+        *   Stored XSS: Eine Attacke kann in der Datenbank gespeichert werden. In Das Lgoinformular kann ein Javascript eingegeben werde
+        * 
+        * 
+        * 
         * */
 
         public ActionResult Index() {
